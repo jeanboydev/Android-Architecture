@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="action_bar_size">48dp</dimen>
+    <dimen name="action_bar_title_size">18sp</dimen>
+
+    <!-- font sizes -->
+    <dimen name="font_huge_24">24sp</dimen>
+    <dimen name="font_bigger_22">22sp</dimen>
+    <dimen name="font_big_20">20sp</dimen>
+    <dimen name="font_larger_18">18sp</dimen>
+    <dimen name="font_large_16">16sp</dimen>
+    <dimen name="font_normal_14">14sp</dimen>
+    <dimen name="font_small_12">12sp</dimen>
+    <dimen name="font_tiny_10">10sp</dimen>
+
+    <!-- typical spacing between two views -->
+    <dimen name="spacing_huge_40">40dp</dimen>
+    <dimen name="spacing_large_24">24dp</dimen>
+    <dimen name="spacing_normal_14">14dp</dimen>
+    <dimen name="spacing_small_10">10dp</dimen>
+    <dimen name="spacing_tiny_4">4dp</dimen>
+
+    <dimen name="recycler_item_header">10dp</dimen>
+    <dimen name="recycler_item_space">8dp</dimen>
+
+
+</resources>

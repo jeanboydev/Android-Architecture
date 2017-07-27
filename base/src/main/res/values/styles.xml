@@ -1,0 +1,139 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- ActionBar颜色 -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 控件默认颜色 -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+
+        <!-- 关闭ActionBar -->
+        <item name="windowActionBar">false</item>
+        <!-- 隐藏title -->
+        <item name="windowNoTitle">true</item>
+
+        <!-- ActionBar标题文字文本颜色 -->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <!-- ActionBar高度 -->
+        <item name="android:actionBarSize">@dimen/action_bar_size</item>
+        <!-- 窗口背景颜色 -->
+        <item name="android:windowBackground">@color/common_bg</item>
+
+        <!-- 隐藏键盘 -->
+        <item name="android:configChanges">keyboardHidden</item>
+        <item name="android:windowSoftInputMode">stateHidden</item>
+
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--状态栏半透明-->
+    <style name="AppTheme.Translucent" parent="AppTheme"></style>
+
+    <!--全屏-->
+    <style name="AppTheme.FullScreen" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="ToolBarTitleTextStyle" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textSize">@dimen/font_big_20</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ToolBarButtonTextStyle" parent="android:Widget.Holo.Light.Button">
+        <item name="android:textSize">@dimen/font_large_16</item>
+        <item name="android:textColor">@android:color/white</item>
+        <!--<item name="android:background">@drawable/common_btn_selector</item>-->
+    </style>
+
+
+    <!--Activity转场动画-->
+    <style name="AnimationExplode" parent="@style/AnimationFade" />
+
+    <style name="AnimationFade">
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@android:anim/fade_out</item>
+        <item name="android:activityCloseExitAnimation">@android:anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@android:anim/fade_in</item>
+    </style>
+
+    <style name="AnimationSlideHorizontal">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
+    </style>
+
+    <style name="AnimationSlideFromBottom">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:activityOpenExitAnimation">@anim/hold</item>
+    </style>
+
+    <style name="AnimationSlideFromRight">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/hold</item>
+    </style>
+
+    <style name="AppTheme.Explode" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/AnimationExplode</item>
+    </style>
+
+    <style name="AppTheme.Fade" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/AnimationFade</item>
+    </style>
+
+    <style name="AppTheme.SlideHorizontal" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/AnimationSlideHorizontal</item>
+    </style>
+
+    <style name="AppTheme.SlideFromBottom">
+        <item name="android:windowAnimationStyle">@style/AnimationSlideFromBottom</item>
+    </style>
+
+    <style name="AppTheme.SlideFromRight">
+        <item name="android:windowAnimationStyle">@style/AnimationSlideFromRight</item>
+    </style>
+
+    <style name="AppTheme.Splash">
+        <item name="android:windowAnimationStyle">@style/AppTheme.FullScreen</item>
+        <!--<item name="android:windowBackground">@drawable/bg_splash</item>-->
+    </style>
+
+
+    <style name="DialogTheme.Base" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="DialogTheme.Loading" parent="DialogTheme.Base">
+
+    </style>
+
+    <style name="DialogTheme.Alert" parent="DialogTheme.Base">
+
+    </style>
+
+</resources>
