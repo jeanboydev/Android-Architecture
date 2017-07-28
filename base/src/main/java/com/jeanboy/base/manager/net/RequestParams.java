@@ -4,15 +4,15 @@ package com.jeanboy.base.manager.net;
  * Created by jeanboy on 2017/5/17.
  */
 
-public class RequestParams<T> {
+public class RequestParams<P> {
 
-    private T params;
+    private P params;
 
-    public RequestParams(T body) {
+    public RequestParams(P body) {
         this.params = body;
     }
 
-    public T getParams() {
+    public P getParams() {
         return params;
     }
 }

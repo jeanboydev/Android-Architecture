@@ -12,7 +12,7 @@ public class UserDataMapper {
     public UserDataMapper() {
     }
 
-    public UserModel getTemperatureFromOpen(UserEntity userEntity) {
+    public UserModel transform(UserEntity userEntity) {
         UserModel userModel = new UserModel();
         userModel.setId(userEntity.getId());
         userModel.setUserName(userEntity.getUsername());

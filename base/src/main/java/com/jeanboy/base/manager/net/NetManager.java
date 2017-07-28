@@ -17,16 +17,16 @@ public class NetManager {
         return SingletonHolder.instance;
     }
 
-    private NetManager() {
+    protected NetManager() {
     }
 
-    public <P, T> void doBack(NetHandler<P, T> handler,
-                              RequestParams<P> request, RequestCallback<ResponseData<T>> callback) {
+    protected <P, T> void doBack(NetHandler<P, T> handler,
+                                 RequestParams<P> request, RequestCallback<ResponseData<T>> callback) {
         handler.doBack(request, callback);
     }
 
-    public <P, T> void doSync(NetHandler<P, T> handler,
-                              RequestParams<P> request, RequestCallback<ResponseData<T>> callback) {
+    protected <P, T> void doSync(NetHandler<P, T> handler,
+                                 RequestParams<P> request, RequestCallback<ResponseData<T>> callback) {
         handler.doSync(request, callback);
     }
 }

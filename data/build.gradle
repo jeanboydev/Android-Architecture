@@ -51,4 +51,6 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
     compile "org.simpleframework:simple-xml:$simpleXmlVersion"
+
+    compile project(':base')
 }
