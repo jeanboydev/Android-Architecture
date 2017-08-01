@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -18,6 +19,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    greendao {
+        schemaVersion 1
+        daoPackage "com.jeanboy.data.cache.database.dao"
+        targetGenDir "src/main/java"
     }
 }
 
@@ -40,6 +47,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile "junit:junit:$rootProject.junitVersion"
+
+    //DataBase
+    compile "org.greenrobot:greendao:$rootProject.greendaoVersion"
 
     //fastjson
     compile "com.alibaba:fastjson:$fastjsonVersion"

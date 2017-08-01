@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -34,14 +35,14 @@ ext {
     junitVersion = '4.12'
     supportLibraryVersion = '25.3.1'
 
-//    greendaoVersion = '3.2.0'
+    greendaoVersion = '3.2.0'
+    glideVersion = '3.7.0'
 //    butterknifeVersion = '8.5.1'
 //    eventbusVersion = '3.0.0'
 //    fastjsonVersion = '1.1.56.android'
 //    okhttpVersion = '3.6.0'
 //    retrofitVersion = '2.2.0'
 //    simpleXmlVersion = '2.7.+'
-//    glideVersion = '3.7.0'
 //    permissionVersion = '2.3.2'
 //    daggerVersion = '2.10'
 //    loggerVersion = '2.1.0'

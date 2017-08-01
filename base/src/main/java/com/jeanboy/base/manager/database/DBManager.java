@@ -15,14 +15,14 @@ public class DBManager {
 
     private Context context;
 
-    private DBHandler dbHandler;
+    protected DBHandler dbHandler;
 
     private static class SingletonHolder {
         @SuppressLint("StaticFieldLeak")
         private static DBManager instance = new DBManager();
     }
 
-    private DBManager() {
+    protected DBManager() {
     }
 
     public static DBManager getInstance() {
@@ -31,11 +31,11 @@ public class DBManager {
 
     public void build(Context context, DBHandler dbHandler) {
         this.context = context.getApplicationContext();
-        this.dbHandler = (dbHandler);
+        this.dbHandler = dbHandler;
         this.dbHandler.init(this.context);
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper());
+    protected Handler handler = new Handler(Looper.getMainLooper());
 
     public interface Callback<T> {
         void onFinish(T t);
@@ -148,7 +148,6 @@ public class DBManager {
         dbHandler.clearCache();
     }
 
-
     /**
      * @param clazz
      * @param where  ex: where begin_date_time >= ? AND end_date_time <= ?
@@ -171,26 +170,4 @@ public class DBManager {
             }
         });
     }
-
-    /*--green DAO--*/
-//    public <T> QueryBuilder<T> queryBuilder(Class<T> clazz) {
-//        return this.dbHandler.queryBuilder(clazz);
-//    }
-//
-//    public <T> void query(final QueryBuilder<T> queryBuilder, final Callback<List<T>> callback) {
-//        DBTaskManager.getInstance().getData(new Runnable() {
-//            @Override
-//            public void run() {
-//                final List<T> ts = queryBuilder.list();
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if (callback != null) {
-//                            callback.onFinish(ts);
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//    }
 }

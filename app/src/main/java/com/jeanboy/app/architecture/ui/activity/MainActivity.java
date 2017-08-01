@@ -1,15 +1,24 @@
 package com.jeanboy.app.architecture.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.jeanboy.app.architecture.R;
+import com.jeanboy.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void setupView(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

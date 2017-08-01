@@ -3,7 +3,7 @@ package com.jeanboy.data.net.impl;
 import com.jeanboy.base.manager.net.RequestCallback;
 import com.jeanboy.base.manager.net.RequestParams;
 import com.jeanboy.base.manager.net.ResponseData;
-import com.jeanboy.data.manager.OkHttpManager;
+import com.jeanboy.data.net.manager.OkHttpManager;
 import com.jeanboy.data.net.dao.UserDao;
 import com.jeanboy.data.net.entity.TokenEntity;
 import com.jeanboy.data.net.entity.UserEntity;

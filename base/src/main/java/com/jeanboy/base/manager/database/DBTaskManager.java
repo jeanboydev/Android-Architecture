@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
  * Created by jeanboy on 2017/2/27.
  */
 
-class DBTaskManager {
+public class DBTaskManager {
 
     private static ExecutorService cachedExecutor = Executors.newCachedThreadPool();
     private static ExecutorService singleExecutor = Executors.newSingleThreadExecutor();
@@ -23,11 +23,11 @@ class DBTaskManager {
     private DBTaskManager() {
     }
 
-    void getData(Runnable runnable) {
+    public void getData(Runnable runnable) {
         cachedExecutor.execute(runnable);
     }
 
-    void putData(Runnable runnable) {
+    public void putData(Runnable runnable) {
         singleExecutor.execute(runnable);
     }
 }

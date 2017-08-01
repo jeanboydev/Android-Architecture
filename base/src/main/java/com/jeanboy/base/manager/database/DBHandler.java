@@ -34,7 +34,4 @@ public interface DBHandler {
      * @return
      */
     <T> List<T> query(Class<T> clazz, String where, String... params);
-
-    /*--greenDAO--*/
-//    <T> QueryBuilder<T> queryBuilder(Class<T> clazz);
 }

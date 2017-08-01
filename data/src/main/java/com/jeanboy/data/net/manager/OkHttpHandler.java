@@ -1,4 +1,4 @@
-package com.jeanboy.data.manager;
+package com.jeanboy.data.net.manager;
 
 import android.text.TextUtils;
 
