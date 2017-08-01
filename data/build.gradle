@@ -39,6 +39,7 @@ ext {
     okhttpVersion = '3.6.0'
     retrofitVersion = '2.2.0'
     simpleXmlVersion = '2.7.+'
+    greendaoVersion = '3.2.0'
 }
 
 dependencies {
@@ -49,7 +50,7 @@ dependencies {
     testCompile "junit:junit:$rootProject.junitVersion"
 
     //DataBase
-    compile "org.greenrobot:greendao:$rootProject.greendaoVersion"
+    compile "org.greenrobot:greendao:$greendaoVersion"
 
     //fastjson
     compile "com.alibaba:fastjson:$fastjsonVersion"

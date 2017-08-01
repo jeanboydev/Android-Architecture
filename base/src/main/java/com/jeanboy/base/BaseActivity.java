@@ -21,6 +21,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutId();
 
+    protected abstract void onSetContentView();
+
     protected abstract void setupView(Bundle savedInstanceState);
 
     protected abstract void initData();
@@ -30,8 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-//        ButterKnife.bind(this);
-
+        onSetContentView();
         setupToolbar();
         setupView(savedInstanceState);
         initData();

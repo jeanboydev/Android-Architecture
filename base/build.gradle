@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: "com.jakewharton.butterknife"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -21,6 +22,10 @@ android {
     }
 }
 
+ext {
+    butterknifeVersion = '8.7.0'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -33,4 +38,8 @@ dependencies {
     compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
 
     testCompile "junit:junit:$rootProject.junitVersion"
+
+    //butterknife
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }

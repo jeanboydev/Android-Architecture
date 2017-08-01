@@ -18,11 +18,14 @@ public abstract class BaseFragment extends Fragment {
     public String TAG = this.getClass().getSimpleName();
 
     private Toolbar toolbar;
-//    private Unbinder unbinder;
 
     protected abstract int getLayoutId();
 
+    protected abstract void onFragmentCreate();
+
     protected abstract void setupArguments(Bundle args);
+
+    protected abstract void onFragmentViewCreated(View view, Bundle savedInstanceState);
 
     protected abstract void setupView(View view, Bundle savedInstanceState);
 
@@ -32,7 +35,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        onInject();
+        onFragmentCreate();
 
         if (getArguments() != null) {
             setupArguments(getArguments());
@@ -49,7 +52,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        unbinder = ButterKnife.bind(this, view);
+        onFragmentViewCreated(view,savedInstanceState);
         setupToolbar(view);
         setupView(view, savedInstanceState);
     }
@@ -58,14 +61,6 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initData();
-    }
-
-    @Override
-    public void onDestroyView() {
-//        if (unbinder != null) {
-//            unbinder.unbind();
-//        }
-        super.onDestroyView();
     }
 
     /**
