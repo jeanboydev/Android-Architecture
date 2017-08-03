@@ -1,15 +1,12 @@
 package com.jeanboy.app.architecture.base;
 
-import android.app.Application;
+import com.jeanboy.app.architecture.di.DaggerApplication;
 
 /**
  * Created by jeanboy on 2017/7/27.
  */
 
-public class MainApplication extends Application {
+public class MainApplication extends DaggerApplication {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
+
 }

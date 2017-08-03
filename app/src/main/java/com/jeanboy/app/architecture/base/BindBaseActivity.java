@@ -1,6 +1,6 @@
 package com.jeanboy.app.architecture.base;
 
-import android.view.View;
+import android.app.Activity;
 
 import com.jeanboy.base.BaseActivity;
 import com.jeanboy.base.wrapper.BindWrapper;
@@ -18,7 +18,7 @@ public abstract class BindBaseActivity extends BaseActivity implements BindWrapp
 
     @Override
     protected void onSetContentView() {
-        onBind(getWindow().getDecorView());
+        onBind(this);
     }
 
     @Override
@@ -28,8 +28,8 @@ public abstract class BindBaseActivity extends BaseActivity implements BindWrapp
     }
 
     @Override
-    public void onBind(View target) {
-        unbinder = ButterKnife.bind(target);
+    public void onBind(Object target) {
+        unbinder = ButterKnife.bind((Activity) target);
     }
 
     @Override

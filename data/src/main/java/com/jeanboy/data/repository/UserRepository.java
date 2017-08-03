@@ -15,6 +15,8 @@ import com.jeanboy.data.repository.datasource.remote.UserRemoteDataSource;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 
 /**
@@ -30,6 +32,7 @@ public class UserRepository extends BaseRepository implements UserDataSource.Loc
     private final UserLocalDataSource localDataSource;
     private final UserRemoteDataSource remoteDataSource;
 
+    @Inject
     public UserRepository(UserLocalDataSource localDataSource, UserRemoteDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
