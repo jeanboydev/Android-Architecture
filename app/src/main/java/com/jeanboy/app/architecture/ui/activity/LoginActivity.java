@@ -11,15 +11,21 @@ import com.jeanboy.app.architecture.R;
 import com.jeanboy.base.BaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
 import com.jeanboy.data.cache.database.model.TokenModel;
+import com.jeanboy.data.cache.database.model.UserModel;
 import com.jeanboy.domain.features.login.LoginContract;
 import com.jeanboy.domain.features.login.LoginPresenter;
+import com.jeanboy.domain.features.user.UserContract;
+import com.jeanboy.domain.features.user.UserPresenter;
 
-public class LoginActivity extends BaseActivity implements LoginContract.View {
+import java.util.List;
+
+public class LoginActivity extends BaseActivity implements LoginContract.View, UserContract.View {
 
     private EditText et_username;
     private EditText et_password;
 
     private LoginPresenter loginPresenter;
+    private UserPresenter userPresenter;
 
     public static void goActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -35,6 +41,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     protected void onSetContentView() {
         loginPresenter = new LoginPresenter();
         loginPresenter.setView(this);
+        userPresenter = new UserPresenter();
+        userPresenter.setView(this);
     }
 
     @Override
@@ -55,6 +63,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         if (loginPresenter != null) {
             loginPresenter.destroy();
         }
+        if (userPresenter != null) {
+            userPresenter.destroy();
+        }
         super.onDestroy();
     }
 
@@ -67,10 +78,33 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @Override
     public void loginSucceed(TokenModel tokenModel) {
         Log.e(TAG, "===loginSucceed===");
+        // TODO: 2017/8/3 通过token获取个人信息
+        //模块化的presenter组合使用
+        userPresenter.getInfo(tokenModel.getAccessToken(), null);
     }
 
     @Override
     public void loginError() {
         Log.e(TAG, "===loginError===");
+    }
+
+    @Override
+    public void getInfoSuccess(UserModel userModel) {
+        Log.e(TAG, "===getInfoSuccess===");
+    }
+
+    @Override
+    public void getInfoError() {
+        Log.e(TAG, "===getInfoError===");
+    }
+
+    @Override
+    public void getFriendListSuccess(List<UserModel> friendList) {
+
+    }
+
+    @Override
+    public void getFriendListError() {
+
     }
 }

@@ -6,7 +6,7 @@ package com.jeanboy.data.base;
 
 public class BaseRepository {
 
-    boolean mCacheIsDirty = false;
+    protected boolean mCacheIsDirty = false;
 
     public void refresh() {
         mCacheIsDirty = true;
