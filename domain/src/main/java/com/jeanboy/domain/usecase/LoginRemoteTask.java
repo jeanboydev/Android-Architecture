@@ -5,9 +5,10 @@ import com.jeanboy.base.manager.net.ResponseData;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.net.entity.TokenEntity;
 import com.jeanboy.data.net.mapper.TokenDataMapper;
-import com.jeanboy.data.repository.Injection;
 import com.jeanboy.data.repository.UserRepository;
 import com.jeanboy.domain.base.BaseUseCase;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 
@@ -17,10 +18,12 @@ import retrofit2.Call;
 
 public class LoginRemoteTask extends BaseUseCase<LoginRemoteTask.RequestValues, LoginRemoteTask.ResponseValues> {
 
-    private final UserRepository userRepository = Injection.provideUserRepository();
+    private UserRepository userRepository;
     private Call<TokenEntity> call;
 
-    public LoginRemoteTask() {
+    @Inject
+    public LoginRemoteTask(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
