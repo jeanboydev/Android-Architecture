@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.jeanboy.app.architecture.R;
-import com.jeanboy.base.BaseFragment;
+import com.jeanboy.app.architecture.base.BindBaseFragment;
 
 /**
  * created by jeanboy on 2017/8/3 14:14
  */
-public class SimpleFragment extends BaseFragment {
+public class SimpleFragment extends BindBaseFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -36,11 +36,6 @@ public class SimpleFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_simple;
-    }
-
-    @Override
-    protected void onFragmentCreate() {
-
     }
 
     @Override

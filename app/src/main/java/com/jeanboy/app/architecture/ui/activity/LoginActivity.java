@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.jeanboy.app.architecture.R;
-import com.jeanboy.base.BaseActivity;
+import com.jeanboy.app.architecture.base.BindBaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.cache.database.model.UserModel;
@@ -19,10 +19,14 @@ import com.jeanboy.domain.features.user.UserPresenter;
 
 import java.util.List;
 
-public class LoginActivity extends BaseActivity implements LoginContract.View, UserContract.View {
+import butterknife.BindView;
 
-    private EditText et_username;
-    private EditText et_password;
+public class LoginActivity extends BindBaseActivity implements LoginContract.View, UserContract.View {
+
+    @BindView(R.id.et_username)
+    EditText et_username;
+    @BindView(R.id.et_password)
+    EditText et_password;
 
     private LoginPresenter loginPresenter;
     private UserPresenter userPresenter;
@@ -49,8 +53,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, U
     protected void setupView(Bundle savedInstanceState) {
         ToolBarUtil.setToolBarTitle(getToolbar(), "Login");
         ToolBarUtil.setToolbarHomeAsUp(this);
-        et_username = (EditText) findViewById(R.id.et_username);
-        et_password = (EditText) findViewById(R.id.et_password);
     }
 
     @Override
