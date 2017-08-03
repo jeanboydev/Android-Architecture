@@ -30,7 +30,7 @@ public class UserLocalDataSource implements UserDataSource.Local {
     @Override
     public void save(UserModel userModel, final SourceCallback<Long> callback) {
         // TODO: 2017/7/28 保存到本地
-        GreenDaoManager.getInstance().save(userModel, new DBManager.Callback<Long>() {
+        DBManager.getInstance().save(userModel, new DBManager.Callback<Long>() {
             @Override
             public void onFinish(Long aLong) {
                 if (callback == null) return;
@@ -46,7 +46,7 @@ public class UserLocalDataSource implements UserDataSource.Local {
     @Override
     public void saveOrUpdate(UserModel userModel, final SourceCallback<String> callback) {
         // TODO: 2017/7/28 保存或更新本地数据
-        GreenDaoManager.getInstance().saveOrUpdate(userModel, new DBManager.Callback<String>() {
+        DBManager.getInstance().saveOrUpdate(userModel, new DBManager.Callback<String>() {
             @Override
             public void onFinish(String s) {
                 if (callback == null) return;
@@ -58,7 +58,7 @@ public class UserLocalDataSource implements UserDataSource.Local {
     @Override
     public void get(Long id, final SourceCallback<UserModel> callback) {
         // TODO: 2017/7/28 根据id获取
-        GreenDaoManager.getInstance().getById(UserModel.class, id, new DBManager.Callback<UserModel>() {
+        DBManager.getInstance().getById(UserModel.class, id, new DBManager.Callback<UserModel>() {
             @Override
             public void onFinish(UserModel dbModel) {
                 if (callback == null) return;
@@ -74,7 +74,7 @@ public class UserLocalDataSource implements UserDataSource.Local {
     @Override
     public void getAll(final SourceCallback<List<UserModel>> callback) {
         // TODO: 2017/7/28 获取全部
-        GreenDaoManager.getInstance().getAll(UserModel.class, new DBManager.Callback<List<UserModel>>() {
+        DBManager.getInstance().getAll(UserModel.class, new DBManager.Callback<List<UserModel>>() {
             @Override
             public void onFinish(List<UserModel> dbModels) {
                 if (callback == null) return;
@@ -94,13 +94,13 @@ public class UserLocalDataSource implements UserDataSource.Local {
     @Override
     public void delete(UserModel userModel) {
         // TODO: 2017/7/28 根据id删除
-        GreenDaoManager.getInstance().delete(userModel, null);
+        DBManager.getInstance().delete(userModel, null);
     }
 
     @Override
     public void clear() {
         // TODO: 2017/7/28 清空
-        GreenDaoManager.getInstance().clear(UserModel.class, null);
+        DBManager.getInstance().clear(UserModel.class, null);
     }
 
     @Override

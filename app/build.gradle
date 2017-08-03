@@ -44,9 +44,4 @@ dependencies {
     //butterknife
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
-    //Dagger2
-    compile "com.google.dagger:dagger:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    testCompile "com.google.dagger:dagger-compiler:$daggerVersion"
 }
