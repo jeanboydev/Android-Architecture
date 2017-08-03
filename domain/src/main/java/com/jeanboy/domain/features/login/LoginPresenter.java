@@ -3,8 +3,6 @@ package com.jeanboy.domain.features.login;
 import com.jeanboy.domain.base.BaseUseCase;
 import com.jeanboy.domain.usecase.LoginRemoteTask;
 
-import javax.inject.Inject;
-
 /**
  * Created by jeanboy on 2017/7/28.
  */
@@ -13,10 +11,8 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     private LoginContract.View view;
 
-    @Inject
-    LoginRemoteTask task;
+    private LoginRemoteTask task = new LoginRemoteTask();
 
-    @Inject
     public LoginPresenter() {
     }
 

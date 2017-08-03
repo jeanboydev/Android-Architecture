@@ -4,8 +4,6 @@ import com.jeanboy.domain.base.BaseUseCase;
 import com.jeanboy.domain.usecase.GetFriendListRemoteTask;
 import com.jeanboy.domain.usecase.GetInfoRemoteTask;
 
-import javax.inject.Inject;
-
 /**
  * Created by jeanboy on 2017/7/31.
  */
@@ -14,12 +12,9 @@ public class UserPresenter implements UserContract.Presenter {
 
     private UserContract.View view;
 
-    @Inject
-    GetInfoRemoteTask getInfoRemoteTask;
-    @Inject
-    GetFriendListRemoteTask getFriendListRemoteTask;
+    private GetInfoRemoteTask getInfoRemoteTask = new GetInfoRemoteTask();
+    private GetFriendListRemoteTask getFriendListRemoteTask = new GetFriendListRemoteTask();
 
-    @Inject
     public UserPresenter() {
     }
 

@@ -4,15 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.jeanboy.app.architecture.R;
-import com.jeanboy.app.architecture.di.DaggerBaseActivity;
+import com.jeanboy.app.architecture.base.BindBaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
 
-public class MainActivity extends DaggerBaseActivity {
-
-    @Override
-    public void onInject() {
-        getActivityComponent().inject(this);
-    }
+public class MainActivity extends BindBaseActivity {
 
     @Override
     protected int getLayoutId() {

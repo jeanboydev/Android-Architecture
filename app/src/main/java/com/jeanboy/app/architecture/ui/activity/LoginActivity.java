@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.jeanboy.app.architecture.R;
-import com.jeanboy.app.architecture.di.DaggerBaseActivity;
+import com.jeanboy.app.architecture.base.BindBaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.cache.database.model.UserModel;
@@ -19,30 +19,21 @@ import com.jeanboy.domain.features.user.UserPresenter;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 
-public class LoginActivity extends DaggerBaseActivity implements LoginContract.View, UserContract.View {
+public class LoginActivity extends BindBaseActivity implements LoginContract.View, UserContract.View {
 
     @BindView(R.id.et_username)
     EditText et_username;
     @BindView(R.id.et_password)
     EditText et_password;
 
-    @Inject
-    LoginPresenter loginPresenter;
-    @Inject
-    UserPresenter userPresenter;
+    private LoginPresenter loginPresenter;
+    private UserPresenter userPresenter;
 
     public static void goActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
-    }
-
-    @Override
-    public void onInject() {
-        getActivityComponent().inject(this);
     }
 
     @Override
@@ -55,7 +46,9 @@ public class LoginActivity extends DaggerBaseActivity implements LoginContract.V
         ToolBarUtil.setToolBarTitle(getToolbar(), "Login");
         ToolBarUtil.setToolbarHomeAsUp(this);
 
+        loginPresenter = new LoginPresenter();
         loginPresenter.setView(this);
+        userPresenter = new UserPresenter();
         userPresenter.setView(this);
     }
 

@@ -9,8 +9,6 @@ import com.jeanboy.data.repository.datasource.UserDataSource;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import retrofit2.Call;
 
 /**
@@ -23,7 +21,6 @@ public class UserRemoteDataSource implements UserDataSource.Remote {
 
     private static UserRemoteDataSource INSTANCE;
 
-    @Inject
     public UserRemoteDataSource() {
     }
 
