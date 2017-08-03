@@ -5,7 +5,7 @@ import com.jeanboy.data.net.entity.UserEntity;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Flowable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -35,7 +35,7 @@ public interface UserDao {
      */
     @FormUrlEncoded
     @POST("/user")
-    Call<TokenEntity> login(@Field("username") String username, @Field("password") String password);
+    Flowable<TokenEntity> login(@Field("username") String username, @Field("password") String password);
 
     /**
      * http://www.xxx.com/user/id
@@ -49,7 +49,7 @@ public interface UserDao {
      * @return
      */
     @GET("/user/{id}")
-    Call<UserEntity> getInfo(@Header("Authorization") String accessToken, @Path("id") String userId);
+    Flowable<UserEntity> getInfo(@Header("Authorization") String accessToken, @Path("id") String userId);
 
     /**
      * http://www.xxx.com/user/id/friend?skip=xxx&limit=xxx
@@ -65,6 +65,6 @@ public interface UserDao {
      * @return
      */
     @GET("/user/{id}/friend")
-    Call<List<UserEntity>> getFriendList(@Header("Authorization") String accessToken, @Path("id") String userId, @Query("skip") int skip,
+    Flowable<List<UserEntity>> getFriendList(@Header("Authorization") String accessToken, @Path("id") String userId, @Query("skip") int skip,
                                          @Query("limit") int limit);
 }

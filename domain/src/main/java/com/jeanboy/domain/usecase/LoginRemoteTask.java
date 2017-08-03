@@ -1,7 +1,5 @@
 package com.jeanboy.domain.usecase;
 
-import com.jeanboy.base.manager.net.RequestCallback;
-import com.jeanboy.base.manager.net.ResponseData;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.net.entity.TokenEntity;
 import com.jeanboy.data.net.mapper.TokenDataMapper;
@@ -10,7 +8,10 @@ import com.jeanboy.domain.base.BaseUseCase;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by jeanboy on 2017/7/27.
@@ -19,7 +20,6 @@ import retrofit2.Call;
 public class LoginRemoteTask extends BaseUseCase<LoginRemoteTask.RequestValues, LoginRemoteTask.ResponseValues> {
 
     private UserRepository userRepository;
-    private Call<TokenEntity> call;
 
     @Inject
     public LoginRemoteTask(UserRepository userRepository) {
@@ -28,20 +28,21 @@ public class LoginRemoteTask extends BaseUseCase<LoginRemoteTask.RequestValues, 
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        call = userRepository.login(requestValues.getUsername(), requestValues.getPassword(), new
-                RequestCallback<ResponseData<TokenEntity>>() {
+        userRepository.login(requestValues.getUsername(), requestValues.getPassword())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<TokenEntity>() {
                     @Override
-                    public void onSuccess(ResponseData<TokenEntity> response) {
-                        TokenEntity body = response.getBody();
+                    public void accept(@NonNull TokenEntity body) throws Exception {
                         if (body == null) return;
                         // TODO: 2017/7/28 mapper数据转换层
                         TokenModel tokenModel = new TokenDataMapper().transform(body);
                         if (getUseCaseCallback() == null) return;
                         getUseCaseCallback().onSuccess(new ResponseValues(tokenModel));
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(int code, String msg) {
+                    public void accept(@NonNull Throwable throwable) throws Exception {
                         if (getUseCaseCallback() == null) return;
                         getUseCaseCallback().onError();
                     }
@@ -50,9 +51,6 @@ public class LoginRemoteTask extends BaseUseCase<LoginRemoteTask.RequestValues, 
 
     @Override
     protected void cancelUseCase() {
-        if (call != null) {
-            call.cancel();
-        }
     }
 
     public static final class RequestValues implements BaseUseCase.RequestValues {

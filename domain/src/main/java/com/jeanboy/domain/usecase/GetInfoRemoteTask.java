@@ -1,7 +1,5 @@
 package com.jeanboy.domain.usecase;
 
-import com.jeanboy.base.manager.net.RequestCallback;
-import com.jeanboy.base.manager.net.ResponseData;
 import com.jeanboy.data.cache.database.model.UserModel;
 import com.jeanboy.data.net.entity.UserEntity;
 import com.jeanboy.data.net.mapper.UserDataMapper;
@@ -10,7 +8,10 @@ import com.jeanboy.domain.base.BaseUseCase;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by jeanboy on 2017/7/27.
@@ -19,7 +20,6 @@ import retrofit2.Call;
 public class GetInfoRemoteTask extends BaseUseCase<GetInfoRemoteTask.RequestValues, GetInfoRemoteTask.ResponseValues> {
 
     private final UserRepository userRepository;
-    private Call<UserEntity> call;
 
     @Inject
     public GetInfoRemoteTask(UserRepository userRepository) {
@@ -28,22 +28,21 @@ public class GetInfoRemoteTask extends BaseUseCase<GetInfoRemoteTask.RequestValu
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        call = userRepository.getInfo(requestValues.getAccessToken(), requestValues.getUserId(), new
-                RequestCallback<ResponseData<UserEntity>>() {
-
-
+        userRepository.getInfo(requestValues.getAccessToken(), requestValues.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<UserEntity>() {
                     @Override
-                    public void onSuccess(ResponseData<UserEntity> response) {
-                        UserEntity body = response.getBody();
+                    public void accept(@NonNull UserEntity body) throws Exception {
                         if (body == null) return;
                         // TODO: 2017/7/28 mapper数据转换层
                         UserModel userModel = new UserDataMapper().transform(body);
                         if (getUseCaseCallback() == null) return;
                         getUseCaseCallback().onSuccess(new ResponseValues(userModel));
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(int code, String msg) {
+                    public void accept(@NonNull Throwable throwable) throws Exception {
                         if (getUseCaseCallback() == null) return;
                         getUseCaseCallback().onError();
                     }
@@ -52,9 +51,6 @@ public class GetInfoRemoteTask extends BaseUseCase<GetInfoRemoteTask.RequestValu
 
     @Override
     protected void cancelUseCase() {
-        if (call != null) {
-            call.cancel();
-        }
     }
 
     public static final class RequestValues implements BaseUseCase.RequestValues {

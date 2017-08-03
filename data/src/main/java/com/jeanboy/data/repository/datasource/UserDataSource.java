@@ -1,7 +1,5 @@
 package com.jeanboy.data.repository.datasource;
 
-import com.jeanboy.base.manager.net.RequestCallback;
-import com.jeanboy.base.manager.net.ResponseData;
 import com.jeanboy.data.base.BaseLocalDataSource;
 import com.jeanboy.data.base.SourceCallback;
 import com.jeanboy.data.cache.database.model.UserModel;
@@ -10,7 +8,7 @@ import com.jeanboy.data.net.entity.UserEntity;
 
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Flowable;
 
 /**
  * Created by jeanboy on 2017/7/27.
@@ -25,11 +23,10 @@ public class UserDataSource {
 
     public interface Remote {
         // TODO: 2017/7/27 API 接口定义
-        Call<TokenEntity> login(String username, String password, RequestCallback<ResponseData<TokenEntity>> callback);
+        Flowable<TokenEntity> login(String username, String password);
 
-        Call<UserEntity> getInfo(String accessToken, String userId, RequestCallback<ResponseData<UserEntity>> callback);
+        Flowable<UserEntity> getInfo(String accessToken, String userId);
 
-        Call<List<UserEntity>> getFriendList(String accessToken, String userId, int skip, int limit,
-                                             RequestCallback<ResponseData<List<UserEntity>>> callback);
+        Flowable<List<UserEntity>> getFriendList(String accessToken, String userId, int skip, int limit);
     }
 }
