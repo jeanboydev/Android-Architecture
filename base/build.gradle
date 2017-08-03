@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: "com.jakewharton.butterknife"
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -22,9 +21,6 @@ android {
     }
 }
 
-ext {
-    butterknifeVersion = '8.7.0'
-}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -39,7 +35,4 @@ dependencies {
 
     testCompile "junit:junit:$rootProject.junitVersion"
 
-    //butterknife
-    compile "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }

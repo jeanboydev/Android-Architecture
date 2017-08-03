@@ -13,6 +13,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onSetContentView() {
+
+    }
+
+    @Override
     protected void setupView(Bundle savedInstanceState) {
 
     }
