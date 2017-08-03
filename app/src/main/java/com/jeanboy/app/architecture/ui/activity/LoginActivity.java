@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.jeanboy.app.architecture.R;
-import com.jeanboy.base.BaseActivity;
+import com.jeanboy.app.architecture.di.DaggerBaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.cache.database.model.UserModel;
@@ -19,17 +19,30 @@ import com.jeanboy.domain.features.user.UserPresenter;
 
 import java.util.List;
 
-public class LoginActivity extends BaseActivity implements LoginContract.View, UserContract.View {
+import javax.inject.Inject;
 
-    private EditText et_username;
-    private EditText et_password;
+import butterknife.BindView;
 
-    private LoginPresenter loginPresenter;
-    private UserPresenter userPresenter;
+public class LoginActivity extends DaggerBaseActivity implements LoginContract.View, UserContract.View {
+
+    @BindView(R.id.et_username)
+    EditText et_username;
+    @BindView(R.id.et_password)
+    EditText et_password;
+
+    @Inject
+    LoginPresenter loginPresenter;
+    @Inject
+    UserPresenter userPresenter;
 
     public static void goActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onInject() {
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -38,19 +51,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, U
     }
 
     @Override
-    protected void onSetContentView() {
-        loginPresenter = new LoginPresenter();
-        loginPresenter.setView(this);
-        userPresenter = new UserPresenter();
-        userPresenter.setView(this);
-    }
-
-    @Override
     protected void setupView(Bundle savedInstanceState) {
         ToolBarUtil.setToolBarTitle(getToolbar(), "Login");
         ToolBarUtil.setToolbarHomeAsUp(this);
-        et_username = (EditText) findViewById(R.id.et_username);
-        et_password = (EditText) findViewById(R.id.et_password);
+
+        loginPresenter.setView(this);
+        userPresenter.setView(this);
     }
 
     @Override

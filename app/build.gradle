@@ -23,7 +23,6 @@ android {
 
 ext {
     butterknifeVersion = '8.7.0'
-    daggerVersion = '2.10'
 }
 
 dependencies {
@@ -36,4 +35,18 @@ dependencies {
     compile project(':domain')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'
+
+    //images-glide
+    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    //高斯模糊
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+
+    //butterknife
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    //Dagger2
+    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    testCompile "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 }

@@ -1,7 +1,5 @@
 package com.jeanboy.base.wrapper;
 
-import android.view.View;
-
 /**
  * Created by jeanboy on 2017/8/2.
  * <p>
@@ -14,7 +12,7 @@ public interface BindWrapper {
      * activity中：onSetContentView()后调用
      * fragment中：onFragmentViewCreated()后调用
      */
-    void onBind(View target);
+    void onBind(Object target);
 
     /**
      * activity中：onDestroy()后调用
