@@ -31,22 +31,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile "junit:junit:$rootProject.junitVersion"
 
     compile project(':domain')
-
-    //images-glide
-    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
-    //高斯模糊
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
-
-    //butterknife
-    compile "com.jakewharton:butterknife:$butterknifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-
-    //Dagger2
-    compile "com.google.dagger:dagger:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    testCompile "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:25.3.1'
 }

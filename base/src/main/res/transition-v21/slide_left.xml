@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<slide xmlns:android="http://schemas.android.com/apk/res/android"
+    android:slideEdge="left">
+    <targets>
+        <!--处理5.0转场动画状态栏闪屏问题-->
+        <target android:excludeId="@android:id/navigationBarBackground" />
+        <target android:excludeId="@android:id/statusBarBackground" />
+    </targets>
+</slide>
