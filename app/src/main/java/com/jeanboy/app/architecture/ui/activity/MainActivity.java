@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.jeanboy.app.architecture.R;
 import com.jeanboy.base.BaseActivity;
-import com.jeanboy.base.utils.ToolsBarUtil;
+import com.jeanboy.base.utils.ToolBarUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setupView(Bundle savedInstanceState) {
-        ToolsBarUtil.setToolBarTitle(getToolbar(), "Main");
+        ToolBarUtil.setToolBarTitle(getToolbar(), "Main");
     }
 
     @Override

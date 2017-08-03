@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.jeanboy.base.utils.ToolsBarUtil;
+import com.jeanboy.base.utils.ToolBarUtil;
 
 /**
  * Created by jeanboy on 2017/7/27.
@@ -45,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (toolbar == null) {
             toolbar = (Toolbar) findViewById(R.id.toolbar);
             if (toolbar != null) {
-                toolbar.setTitle(null);
+                toolbar.setTitle("");
                 setSupportActionBar(toolbar);
             }
         }
@@ -59,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        ToolsBarUtil.setStatusBarImmersiveWindowFocusChanged(this, hasFocus);
+        ToolBarUtil.setStatusBarImmersiveWindowFocusChanged(this, hasFocus);
     }
 
     /**

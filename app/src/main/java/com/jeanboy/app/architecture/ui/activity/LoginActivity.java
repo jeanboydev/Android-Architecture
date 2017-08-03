@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.jeanboy.app.architecture.R;
 import com.jeanboy.base.BaseActivity;
-import com.jeanboy.base.utils.ToolsBarUtil;
+import com.jeanboy.base.utils.ToolBarUtil;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.domain.features.login.LoginContract;
 import com.jeanboy.domain.features.login.LoginPresenter;
@@ -39,8 +39,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected void setupView(Bundle savedInstanceState) {
-        ToolsBarUtil.setToolBarTitle(getToolbar(), "Login");
-        ToolsBarUtil.setToolbarHomeAsUp(this);
+        ToolBarUtil.setToolBarTitle(getToolbar(), "Login");
+        ToolBarUtil.setToolbarHomeAsUp(this);
         et_username = (EditText) findViewById(R.id.et_username);
         et_password = (EditText) findViewById(R.id.et_password);
     }

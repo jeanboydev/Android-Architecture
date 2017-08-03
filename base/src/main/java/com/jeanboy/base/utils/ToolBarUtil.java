@@ -17,7 +17,7 @@ import com.jeanboy.base.R;
  * Created by jeanboy on 2017/7/27.
  */
 
-public class ToolsBarUtil {
+public class ToolBarUtil {
 
     /**
      * 设置Toolbar的标题
