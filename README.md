@@ -10,7 +10,7 @@
 
 - 数据层（Data Layer）：加入数据转换层（Mapper）将服务端数据模型（Entity）与本地数据模型（Model）解耦。
 - 业务层（Domain Layer）：按模块划分业务，具体业务交给 Usecase 处理。
-- 展示层（View Layer）： Presenter 不再与 Activity/Fragment一一对应，Presenter 按照业务模块划分功能，大大提高 Presenter 的复用性。Activity/Fragment 中可以实现多个 View，持有多个 Presenter 来完成业务逻辑。
+- 展示层（View Layer）： Presenter 不再与 Activity/Fragment 一一对应，Presenter 按照业务模块划分功能，大大提高 Presenter 的复用性。Activity/Fragment 中可以实现多个 View，持有多个 Presenter 来完成业务逻辑。
 
 ## 示例
 
