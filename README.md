@@ -14,7 +14,7 @@
 
 ## 数据层（Data Layer）
 
-<img src="https://github.com/jeanboydev/Android-Architecture/blob/master/resources/images/android-architecture-data" alt="data.png"/>
+<img src="https://github.com/jeanboydev/Android-Architecture/blob/master/resources/images/android-architecture-data.png" alt="data.png"/>
 
 数据层（Data Layer）主要是数据获取与数据缓存策略的处理。
 
