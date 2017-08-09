@@ -12,6 +12,15 @@
 - 业务层（Domain Layer）：按模块划分业务，具体业务交给 Usecase 处理。
 - 显示层（View Layer）： Presenter 不再与 Activity/Fragment 一一对应，Presenter 按照业务模块划分功能，大大提高 Presenter 的复用性。Activity/Fragment 中可以实现多个 View，持有多个 Presenter 来完成业务逻辑。
 
+## 示例
+
+| 分支 | 描述 |
+| ------------- | ------------- |
+| [master](https://github.com/jeanboydev/Android-Architecture) | 演示了 Model-View-Presenter（MVP）+ Clean 架构，提供一些基类，状态栏沉浸适配等 |
+| [develop](https://github.com/jeanboydev/Android-Architecture/tree/develop) | 使用 [butterknife](https://github.com/JakeWharton/butterknife) |
+| [develop-dagger](https://github.com/jeanboydev/Android-Architecture/tree/develop-dagger) | 加入 [dagger](https://github.com/google/dagger) 的支持 |
+| [develop-dagger-rxjava](https://github.com/jeanboydev/Android-Architecture/tree/develop-dagger-rxjava) | 加入 [rxjava](https://github.com/ReactiveX/RxJava) 的支持 |
+
 ## 数据层（Data Layer）
 
 <img src="https://github.com/jeanboydev/Android-Architecture/blob/master/resources/images/android-architecture-data.png" alt="data.png"/>
@@ -37,15 +46,6 @@
 显示层（View Layer）主要是数据的展示与更新操作。显示层通过 Presenter 与业务层交互，Activity / Fragment 与 Presenter 解耦，将业务实现由 Presenter 组合而成。Presenter 与 View 对应，Activity / Fragment 由多个 View 管理。
 
 具体实现参见 [LoginActivity](https://github.com/jeanboydev/Android-Architecture/blob/master/app/src/main/java/com/jeanboy/app/architecture/ui/activity/LoginActivity.java)
-
-## 示例
-
-| 分支 | 描述 |
-| ------------- | ------------- |
-| [master](https://github.com/jeanboydev/Android-Architecture) | 演示了 Model-View-Presenter（MVP）+ Clean 架构，提供一些基类，状态栏沉浸适配等 |
-| [develop](https://github.com/jeanboydev/Android-Architecture/tree/develop) | 使用 [butterknife](https://github.com/JakeWharton/butterknife) |
-| [develop-dagger](https://github.com/jeanboydev/Android-Architecture/tree/develop-dagger) | 加入 [dagger](https://github.com/google/dagger) 的支持 |
-| [develop-dagger-rxjava](https://github.com/jeanboydev/Android-Architecture/tree/develop-dagger-rxjava) | 加入 [rxjava](https://github.com/ReactiveX/RxJava) 的支持 |
 
 ## 项目结构
 
