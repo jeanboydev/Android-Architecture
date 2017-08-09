@@ -49,7 +49,6 @@
 
 ## 项目结构
 
-项目结构思维导图
 <img src="https://github.com/jeanboydev/Android-Architecture/blob/master/resources/images/android_project.png" alt="architecture"/>
 
 ## 参考资料
