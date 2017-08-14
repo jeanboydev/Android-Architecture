@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jeanboy.app.architecture.ui.activity.MainActivity">
+    tools:context="com.jeanboy.app.architecture.ui.activity.LoginActivity">
 
     <include layout="@layout/toolbar"/>
 
@@ -15,11 +15,22 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPassword"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="openLogin"
-            android:text="open login"/>
+            android:onClick="toLogin"
+            android:text="login"/>
 
     </LinearLayout>
 

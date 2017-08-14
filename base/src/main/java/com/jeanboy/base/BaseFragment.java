@@ -68,7 +68,7 @@ public abstract class BaseFragment extends Fragment {
         if (toolbar == null) {
             toolbar = (Toolbar) view.findViewById(R.id.toolbar);
             if (toolbar != null) {
-                toolbar.setTitle(null);
+                toolbar.setTitle("");
                 ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             }
         }

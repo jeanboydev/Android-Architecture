@@ -18,6 +18,11 @@ public abstract class BindBaseFragment extends BaseFragment implements BindWrapp
     private Unbinder unbinder;
 
     @Override
+    protected void onFragmentCreate() {
+
+    }
+
+    @Override
     protected void onFragmentViewCreated(View view, Bundle savedInstanceState) {
         onBind(view);
     }
