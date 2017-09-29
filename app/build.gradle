@@ -23,21 +23,29 @@ android {
 
 ext {
     butterknifeVersion = '8.7.0'
+    glideVersion = '3.7.0'
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
     testCompile "junit:junit:$rootProject.junitVersion"
 
-    compile project(':domain')
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:25.3.1'
+
+    compile project(':domain')
 
     //images-glide
-    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    compile "com.github.bumptech.glide:glide:$glideVersion"
     //高斯模糊
     compile 'jp.wasabeef:glide-transformations:2.0.1'
 
@@ -47,7 +55,14 @@ dependencies {
 
     //Dagger2
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    testCompile "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    compile "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+
+    //arch
+    compile "android.arch.persistence.room:runtime:$rootProject.archVersion"
+    compile "android.arch.lifecycle:runtime:$rootProject.archVersion"
+    compile "android.arch.lifecycle:extensions:$rootProject.archVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.archVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archVersion"
 
 }

@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -17,6 +18,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 }
 
@@ -28,21 +30,14 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     minSdkVersion = 16
-    targetSdkVersion = 25
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.3'
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
 
     // App dependencies
     junitVersion = '4.12'
-    supportLibraryVersion = '25.3.1'
+    supportLibraryVersion = '26.1+'
 
-    glideVersion = '3.7.0'
-    daggerVersion = '2.10'
-//    eventbusVersion = '3.0.0'
-//    fastjsonVersion = '1.1.56.android'
-//    permissionVersion = '2.3.2'
-//    loggerVersion = '2.1.0'
-//    progressVersion = '1.7'
-//    circleIndicatorVersion = '1.2.2@aar'
-//    lottieVersion = '2.0.0'
+    daggerVersion = '2.11'
+    archVersion = "1.0.0-alpha9"
 }
