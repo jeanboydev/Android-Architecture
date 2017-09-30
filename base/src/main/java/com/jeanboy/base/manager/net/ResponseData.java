@@ -11,6 +11,20 @@ public class ResponseData<B> {
     private int code;
     private Map<String, Object> headers;
     private B body;
+    private String message;
+
+    public ResponseData() {
+    }
+
+    public ResponseData(B body) {
+        this.code = StatusCode.CODE_OK;
+        this.body = body;
+    }
+
+    public ResponseData(String message) {
+        this.code = StatusCode.CODE_BAD_REQUEST;
+        this.message = message;
+    }
 
     public ResponseData(int code, Map<String, Object> headers, B body) {
         this.code = code;
@@ -28,5 +42,9 @@ public class ResponseData<B> {
 
     public int getCode() {
         return code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

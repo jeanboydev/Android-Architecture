@@ -27,7 +27,7 @@
 # model
 -keep class com.jeanboy.data.cache.database.model.** { *; }
 -keep class com.jeanboy.data.net.entity.** { *; }
--keep class com.jeanboy.data.net.mapper.** { *; }
+-keep class com.jeanboy.data.mapper.** { *; }
 
 ##--------------------------------------data 配置---------------------------------------------------
 

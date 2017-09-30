@@ -20,12 +20,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    greendao {
-        schemaVersion 1
-        daoPackage "com.jeanboy.data.cache.database.dao"
-        targetGenDir "src/main/java"
-    }
 }
 
 configurations {
@@ -49,9 +43,6 @@ dependencies {
     })
     testCompile "junit:junit:$rootProject.junitVersion"
 
-    //DataBase
-    compile "org.greenrobot:greendao:$greendaoVersion"
-
     //fastjson
     compile "com.alibaba:fastjson:$fastjsonVersion"
 
@@ -73,4 +64,13 @@ dependencies {
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
     compile "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+
+    //arch
+    compile "android.arch.lifecycle:runtime:$rootProject.archVersion"
+    compile "android.arch.lifecycle:extensions:$rootProject.archVersion"
+    compile "android.arch.lifecycle:common-java8:$rootProject.archVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archVersion"
+    compile "android.arch.persistence.room:runtime:$rootProject.archVersion"
+    compile "android.arch.persistence.room:rxjava2:$rootProject.archVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.archVersion"
 }

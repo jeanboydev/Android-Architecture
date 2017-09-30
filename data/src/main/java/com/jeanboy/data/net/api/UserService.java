@@ -1,4 +1,4 @@
-package com.jeanboy.data.net.dao;
+package com.jeanboy.data.net.api;
 
 import com.jeanboy.data.net.entity.TokenEntity;
 import com.jeanboy.data.net.entity.UserEntity;
@@ -18,7 +18,7 @@ import retrofit2.http.Query;
  * Created by jeanboy on 2017/7/27.
  */
 
-public interface UserDao {
+public interface UserService {
 
     String BASE_URL = "http://www.xxx.com";
 

@@ -1,17 +1,10 @@
 package com.jeanboy.domain.usecase;
 
 import com.jeanboy.data.cache.database.model.UserModel;
-import com.jeanboy.data.net.entity.UserEntity;
-import com.jeanboy.data.net.mapper.UserDataMapper;
 import com.jeanboy.data.repository.UserRepository;
 import com.jeanboy.domain.base.BaseUseCase;
 
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by jeanboy on 2017/7/27.
@@ -28,25 +21,25 @@ public class GetInfoRemoteTask extends BaseUseCase<GetInfoRemoteTask.RequestValu
 
     @Override
     protected void executeUseCase(RequestValues requestValues) {
-        userRepository.getInfo(requestValues.getAccessToken(), requestValues.getUserId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<UserEntity>() {
-                    @Override
-                    public void accept(@NonNull UserEntity body) throws Exception {
-                        if (body == null) return;
-                        // TODO: 2017/7/28 mapper数据转换层
-                        UserModel userModel = new UserDataMapper().transform(body);
-                        if (getUseCaseCallback() == null) return;
-                        getUseCaseCallback().onSuccess(new ResponseValues(userModel));
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        if (getUseCaseCallback() == null) return;
-                        getUseCaseCallback().onError();
-                    }
-                });
+//        userRepository.getInfo(requestValues.getAccessToken(), requestValues.getUserId())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<UserEntity>() {
+//                    @Override
+//                    public void accept(@NonNull UserEntity body) throws Exception {
+//                        if (body == null) return;
+//                        // TODO: 2017/7/28 mapper数据转换层
+//                        UserModel userModel = new UserDataMapper().transform(body);
+//                        if (getUseCaseCallback() == null) return;
+//                        getUseCaseCallback().onSuccess(new ResponseValues(userModel));
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(@NonNull Throwable throwable) throws Exception {
+//                        if (getUseCaseCallback() == null) return;
+//                        getUseCaseCallback().onError();
+//                    }
+//                });
     }
 
     @Override

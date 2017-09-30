@@ -1,38 +1,27 @@
 package com.jeanboy.data.cache.database.model;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Created by jeanboy on 2017/7/27.
  */
-@Entity
+@Entity(tableName = "user")
 public class UserModel {
 
-    @Id(autoincrement = true)
-    private Long id;
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String userName;
     private String userNick;
-    private Long createTime;
+    private long createTime;
 
-    @Generated(hash = 1474124873)
-    public UserModel(Long id, String userName, String userNick, Long createTime) {
-        this.id = id;
-        this.userName = userName;
-        this.userNick = userNick;
-        this.createTime = createTime;
-    }
 
-    @Generated(hash = 782181818)
-    public UserModel() {
-    }
-
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -52,11 +41,11 @@ public class UserModel {
         this.userNick = userNick;
     }
 
-    public Long getCreateTime() {
+    public long getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(long createTime) {
         this.createTime = createTime;
     }
 }

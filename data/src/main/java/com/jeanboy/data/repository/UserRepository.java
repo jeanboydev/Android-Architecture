@@ -1,184 +1,129 @@
 package com.jeanboy.data.repository;
 
-import com.jeanboy.data.base.BaseRepository;
-import com.jeanboy.data.base.SourceCallback;
+import android.arch.lifecycle.LiveData;
+
+import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.cache.database.model.UserModel;
+import com.jeanboy.data.cache.manager.AppDatabase;
+import com.jeanboy.data.cache.manager.DBManager;
+import com.jeanboy.data.mapper.TokenDataMapper;
+import com.jeanboy.data.mapper.UserDataMapper;
+import com.jeanboy.data.net.api.UserService;
 import com.jeanboy.data.net.entity.TokenEntity;
 import com.jeanboy.data.net.entity.UserEntity;
-import com.jeanboy.data.net.mapper.UserDataMapper;
-import com.jeanboy.data.repository.datasource.UserDataSource;
-import com.jeanboy.data.repository.datasource.local.UserLocalDataSource;
-import com.jeanboy.data.repository.datasource.remote.UserRemoteDataSource;
+import com.jeanboy.data.net.manager.OkHttpManager;
+import com.jeanboy.data.repository.handler.RepositoryCallback;
+import com.jeanboy.data.repository.handler.RepositoryHandler;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by jeanboy on 2017/7/27.
+ * Created by jeanboy on 2017/9/29.
  */
+@Singleton
+public class UserRepository {
 
-public class UserRepository extends BaseRepository implements UserDataSource.Local, UserDataSource.Remote {
+    private AppDatabase database = DBManager.getInstance().getDataBase();
+    private UserService userDao = OkHttpManager.getInstance().create(UserService.BASE_URL, UserService.class);
 
-    private static UserRepository INSTANCE = null;
+    public LiveData<TokenModel> login(final String username, final String password, final RepositoryCallback<TokenModel> callback) {
+        return new RepositoryHandler<TokenEntity, TokenModel>() {
 
-    Map<String, UserModel> mCacheMap;//memory cache
-
-    private final UserLocalDataSource localDataSource;
-    private final UserRemoteDataSource remoteDataSource;
-
-    @Inject
-    public UserRepository(UserLocalDataSource localDataSource, UserRemoteDataSource remoteDataSource) {
-        this.localDataSource = localDataSource;
-        this.remoteDataSource = remoteDataSource;
-    }
-
-    public static UserRepository getInstance(UserLocalDataSource localDataSource, UserRemoteDataSource
-            remoteDataSource) {
-        if (INSTANCE == null) {
-            INSTANCE = new UserRepository(localDataSource, remoteDataSource);
-        }
-        return INSTANCE;
-    }
-
-    public static void destroyInstance() {
-        INSTANCE = null;
-    }
-
-    @Override
-    public void save(UserModel userModel, SourceCallback<Long> callback) {
-        localDataSource.save(userModel, callback);
-    }
-
-    @Override
-    public void saveOrUpdate(UserModel userModel, SourceCallback<String> callback) {
-        localDataSource.saveOrUpdate(userModel, callback);
-    }
-
-    @Override
-    public void get(Long id, SourceCallback<UserModel> callback) {
-        localDataSource.get(id, callback);
-    }
-
-    @Override
-    public void getAll(SourceCallback<List<UserModel>> callback) {
-        localDataSource.getAll(callback);
-    }
-
-    @Override
-    public void delete(UserModel userModel) {
-        localDataSource.delete(userModel);
-    }
-
-    @Override
-    public void clear() {
-        localDataSource.clear();
-    }
-
-    @Override
-    public void getByUsername(String username, SourceCallback<UserModel> callback) {
-        localDataSource.getByUsername(username, callback);
-    }
-
-    @Override
-    public Flowable<TokenEntity> login(String username, String password) {
-        return remoteDataSource.login(username, password);
-    }
-
-    @Override
-    public Flowable<UserEntity> getInfo(String accessToken, String userId) {
-        return remoteDataSource.getInfo(accessToken, userId);
-    }
-
-    @Override
-    public Flowable<List<UserEntity>> getFriendList(String accessToken, String userId, int skip, int limit) {
-        return remoteDataSource.getFriendList(accessToken, userId, skip, limit);
-    }
-
-    /**
-     * 数据缓存逻辑
-     *
-     * @param userId
-     * @param callback
-     */
-    public void getUserInfo(final String userId, final SourceCallback<UserModel> callback) {
-        UserModel userModel = getFromMemory(userId);
-
-        //内存缓存没有失效，优先从内存取出
-        if (userModel != null && !mCacheIsDirty) {
-            callback.onLoaded(userModel);
-            return;
-        }
-
-        if (mCacheIsDirty) {//缓存数据需要更新
-            getFromRemote(userId, callback);
-        } else {//读取缓存数据
-            get(Long.parseLong(userId), new SourceCallback<UserModel>() {
-                @Override
-                public void onLoaded(UserModel userModel) {
-                    // TODO: 2017/8/3 刷新内存中缓存
-                    refreshMemoryCache(userModel);
-                    callback.onLoaded(userModel);
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    callback.onDataNotAvailable();
-                }
-            });
-        }
-    }
-
-    private void getFromRemote(String userId, final SourceCallback<UserModel> callback) {
-        getInfo("", userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<UserEntity>() {
-                    @Override
-                    public void accept(@NonNull UserEntity body) throws Exception {
-                        if (body == null) return;
-                        // TODO: 2017/7/28 mapper数据转换层
-                        UserModel userModel = new UserDataMapper().transform(body);
-                        // TODO: 2017/8/3 缓存数据
-                        refreshLocalData(userModel);
-                        callback.onLoaded(userModel);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        callback.onDataNotAvailable();
-                    }
-                });
-    }
-
-    private void refreshLocalData(final UserModel userModel) {
-        save(userModel, new SourceCallback<Long>() {
             @Override
-            public void onLoaded(Long aLong) {
-                userModel.setId(aLong);
-                // TODO: 2017/8/3 刷新内存中缓存
-                refreshMemoryCache(userModel);
+            protected boolean shouldFetch(TokenModel result) {
+                return result == null;
             }
 
             @Override
-            public void onDataNotAvailable() {
-
+            protected Flowable<TokenEntity> fetchFromNetWork() {
+                return userDao.login(username, password);
             }
-        });
+
+            @Override
+            protected TokenModel onMapper(TokenEntity tokenEntity) {
+                return new TokenDataMapper().transform(tokenEntity);
+            }
+
+            @Override
+            protected void onFetchFailed(String message) {
+                callback.onError(message);
+            }
+
+            @Override
+            protected void onFetchSucceed(TokenModel result) {
+                callback.onSucceed(result);
+            }
+        }.asLiveData();
     }
 
-    private UserModel getFromMemory(String userId) {
-        return mCacheMap.get(String.valueOf(userId));
+    public LiveData<UserModel> getInfo(final String accessToken, final String userId, final RepositoryCallback<UserModel> callback) {
+        return new RepositoryHandler<UserEntity, UserModel>() {
+
+            @Override
+            protected LiveData<UserModel> loadFromCache() {
+                return database.userDao().getById(userId);
+            }
+
+            @Override
+            protected void saveToCache(UserModel result) {
+                database.beginTransaction();
+                try {
+                    database.userDao().insert(result);
+                    database.setTransactionSuccessful();
+                } finally {
+                    database.endTransaction();
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(UserModel result) {
+                return result == null;
+            }
+
+            @Override
+            protected Flowable<UserEntity> fetchFromNetWork() {
+                return userDao.getInfo(accessToken, userId);
+            }
+
+            @Override
+            protected UserModel onMapper(UserEntity userEntity) {
+                return new UserDataMapper().transform(userEntity);
+            }
+
+            @Override
+            protected void onFetchFailed(String message) {
+                callback.onError(message);
+            }
+
+            @Override
+            protected void onFetchSucceed(UserModel result) {
+                callback.onSucceed(result);
+            }
+        }.asLiveData();
     }
 
-    private void refreshMemoryCache(UserModel userModel) {
-        mCacheMap.put(String.valueOf(userModel.getId()), userModel);
+    public LiveData<List<UserModel>> getFriendList(final String accessToken, final String userId, final int skip, final int limit) {
+        return new RepositoryHandler<List<UserEntity>, List<UserModel>>() {
+
+            @Override
+            protected boolean shouldFetch(List<UserModel> result) {
+                return result == null || result.isEmpty();
+            }
+
+            @Override
+            protected Flowable<List<UserEntity>> fetchFromNetWork() {
+                return userDao.getFriendList(accessToken, userId, skip, limit);
+            }
+
+            @Override
+            protected List<UserModel> onMapper(List<UserEntity> entityList) {
+                return new UserDataMapper().transform(entityList);
+            }
+        }.asLiveData();
     }
+
 }

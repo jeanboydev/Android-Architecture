@@ -1,4 +1,4 @@
-package com.jeanboy.data.net.mapper;
+package com.jeanboy.data.mapper;
 
 import com.jeanboy.data.cache.database.model.UserModel;
 import com.jeanboy.data.net.entity.UserEntity;
