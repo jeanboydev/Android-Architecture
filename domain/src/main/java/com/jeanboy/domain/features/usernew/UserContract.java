@@ -12,6 +12,8 @@ public class UserContract {
 
     public interface View {
 
+        void onLoginError();
+
         void onInfoChange(UserModel userModel);
 
         void onInfoError();
@@ -26,8 +28,8 @@ public class UserContract {
 
         void login(String username, String password);
 
-        void getInfo(String accessToken, String userId);
+        void getInfo(String userId);
 
-        void getFriendList(String accessToken, String userId, int skip, int limit);
+        void getFriendList(String userId, int skip, int limit);
     }
 }

@@ -12,7 +12,6 @@ import com.jeanboy.data.net.api.UserService;
 import com.jeanboy.data.net.entity.TokenEntity;
 import com.jeanboy.data.net.entity.UserEntity;
 import com.jeanboy.data.net.manager.OkHttpManager;
-import com.jeanboy.data.repository.handler.RepositoryCallback;
 import com.jeanboy.data.repository.handler.RepositoryHandler;
 
 import java.util.List;
@@ -30,12 +29,12 @@ public class UserRepository {
     private AppDatabase database = DBManager.getInstance().getDataBase();
     private UserService userDao = OkHttpManager.getInstance().create(UserService.BASE_URL, UserService.class);
 
-    public LiveData<TokenModel> login(final String username, final String password, final RepositoryCallback<TokenModel> callback) {
+    public LiveData<TokenModel> login(final String username, final String password) {
         return new RepositoryHandler<TokenEntity, TokenModel>() {
 
             @Override
             protected boolean shouldFetch(TokenModel result) {
-                return result == null;
+                return true;
             }
 
             @Override
@@ -47,20 +46,10 @@ public class UserRepository {
             protected TokenModel onMapper(TokenEntity tokenEntity) {
                 return new TokenDataMapper().transform(tokenEntity);
             }
-
-            @Override
-            protected void onFetchFailed(String message) {
-                callback.onError(message);
-            }
-
-            @Override
-            protected void onFetchSucceed(TokenModel result) {
-                callback.onSucceed(result);
-            }
         }.asLiveData();
     }
 
-    public LiveData<UserModel> getInfo(final String accessToken, final String userId, final RepositoryCallback<UserModel> callback) {
+    public LiveData<UserModel> getInfo(final String accessToken, final String userId) {
         return new RepositoryHandler<UserEntity, UserModel>() {
 
             @Override
@@ -92,16 +81,6 @@ public class UserRepository {
             @Override
             protected UserModel onMapper(UserEntity userEntity) {
                 return new UserDataMapper().transform(userEntity);
-            }
-
-            @Override
-            protected void onFetchFailed(String message) {
-                callback.onError(message);
-            }
-
-            @Override
-            protected void onFetchSucceed(UserModel result) {
-                callback.onSucceed(result);
             }
         }.asLiveData();
     }

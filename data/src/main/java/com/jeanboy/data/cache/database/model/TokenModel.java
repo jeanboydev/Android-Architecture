@@ -6,9 +6,27 @@ package com.jeanboy.data.cache.database.model;
 
 public class TokenModel {
 
-    private String refreshToken;//获取accessToken
-    private String accessToken;//授权令牌
-    private int expiresIn;//过期时长
+    private String tokenType;//令牌类型
+    private String refreshToken;//更新令牌，用来获取下一次的访问令牌
+    private String accessToken;//访问令牌
+    private int expiresIn;//过期时间
+    private long createTimeAt;//创建时间
+
+    public TokenModel() {
+        createTimeAt = System.currentTimeMillis();
+    }
+
+    public boolean isInvalid() {
+        return System.currentTimeMillis() - createTimeAt > expiresIn;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
 
     public String getRefreshToken() {
         return refreshToken;
@@ -32,5 +50,13 @@ public class TokenModel {
 
     public void setExpiresIn(int expiresIn) {
         this.expiresIn = expiresIn;
+    }
+
+    public long getCreateTimeAt() {
+        return createTimeAt;
+    }
+
+    public void setCreateTimeAt(long createTimeAt) {
+        this.createTimeAt = createTimeAt;
     }
 }

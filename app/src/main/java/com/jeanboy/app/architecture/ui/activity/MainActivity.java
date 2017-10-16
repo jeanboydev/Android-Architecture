@@ -1,20 +1,21 @@
 package com.jeanboy.app.architecture.ui.activity;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.jeanboy.app.architecture.R;
 import com.jeanboy.app.architecture.di.DaggerBaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
-import com.jeanboy.data.cache.database.model.TokenModel;
-import com.jeanboy.domain.features.usernew.UserViewModel;
+import com.jeanboy.data.cache.database.model.UserModel;
+import com.jeanboy.domain.features.usernew.UserContract;
+import com.jeanboy.domain.features.usernew.UserPresenter;
 
-public class MainActivity extends DaggerBaseActivity {
+import java.util.List;
 
-    private UserViewModel userViewModel;
+public class MainActivity extends DaggerBaseActivity implements UserContract.View {
+
+
+    private UserPresenter userPresenter;
 
     @Override
     public void onInject() {
@@ -29,23 +30,53 @@ public class MainActivity extends DaggerBaseActivity {
     @Override
     protected void setupView(Bundle savedInstanceState) {
         ToolBarUtil.setToolBarTitle(getToolbar(), "Main");
-
-        userViewModel= ViewModelProviders.of(this).get(UserViewModel.class);
-
+        userPresenter = new UserPresenter(this);
+        userPresenter.onViewCreated(this);
     }
 
     @Override
     protected void initData() {
-        userViewModel.login("","'");
-        userViewModel.getTokenData().observe(this, new Observer<TokenModel>() {
-            @Override
-            public void onChanged(@Nullable TokenModel tokenModel) {
+        userPresenter.getInfo(null);
+    }
 
-            }
-        });
+    private void showUserInfo(UserModel userModel) {
+
+    }
+
+    public void testLogin(String username, String password) {
+        userPresenter.login(username, password);
+    }
+
+    public void testGetFriendList() {
+        userPresenter.getFriendList(null, 0, 10);
     }
 
     public void openLogin(View view) {
         LoginActivity.goActivity(this);
+    }
+
+    @Override
+    public void onLoginError() {
+
+    }
+
+    @Override
+    public void onInfoChange(UserModel userModel) {
+        showUserInfo(userModel);
+    }
+
+    @Override
+    public void onInfoError() {
+
+    }
+
+    @Override
+    public void onFriendListChange(List<UserModel> friendList) {
+
+    }
+
+    @Override
+    public void onFriendListError() {
+
     }
 }

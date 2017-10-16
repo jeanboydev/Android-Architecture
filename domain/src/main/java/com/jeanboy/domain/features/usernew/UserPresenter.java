@@ -2,14 +2,10 @@ package com.jeanboy.domain.features.usernew;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.cache.database.model.UserModel;
-import com.jeanboy.data.repository.handler.RepositoryCallback;
 
 
 /**
@@ -24,26 +20,30 @@ public class UserPresenter extends BasePresenterNew<UserContract.View> implement
     }
 
     private UserViewModel userViewModel;
-
+    private String targetUserId = null;
 
     @Override
     public void onViewCreated(LifecycleOwner owner) {
-        if (owner instanceof FragmentActivity) {
-            userViewModel = ViewModelProviders.of((FragmentActivity) owner).get(UserViewModel.class);
-        } else if (owner instanceof Fragment) {
-            userViewModel = ViewModelProviders.of((Fragment) owner).get(UserViewModel.class);
-        }
+        userViewModel = getViewModel(owner, UserViewModel.class);
         if (userViewModel == null) return;
         userViewModel.getTokenData().observe(owner, new Observer<TokenModel>() {
             @Override
             public void onChanged(@Nullable TokenModel tokenModel) {
-
+                if (tokenModel == null) {
+                    view.onLoginError();
+                    return;
+                }
+                userViewModel.getInfo(targetUserId);
             }
         });
 
         userViewModel.getUserData().observe(owner, new Observer<UserModel>() {
             @Override
             public void onChanged(@Nullable UserModel userModel) {
+                if (userModel == null) {
+                    view.onInfoError();
+                    return;
+                }
                 view.onInfoChange(userModel);
             }
         });
@@ -51,35 +51,16 @@ public class UserPresenter extends BasePresenterNew<UserContract.View> implement
 
     @Override
     public void login(String username, String password) {
-        userViewModel.login(username, password, new RepositoryCallback<TokenModel>() {
-            @Override
-            public void onSucceed(TokenModel result) {
-
-            }
-
-            @Override
-            public void onError(String message) {
-
-            }
-        });
+        userViewModel.login(username, password);
     }
 
     @Override
-    public void getInfo(String accessToken, String userId) {
-        userViewModel.getInfo(accessToken, userId, new RepositoryCallback<UserModel>() {
-            @Override
-            public void onSucceed(UserModel result) {
-            }
-
-            @Override
-            public void onError(String message) {
-                view.onInfoError();
-            }
-        });
+    public void getInfo(String userId) {
+        userViewModel.getInfo(userId);
     }
 
     @Override
-    public void getFriendList(String accessToken, String userId, int skip, int limit) {
-
+    public void getFriendList(String userId, int skip, int limit) {
+        userViewModel.getFriendList(userId, skip, limit);
     }
 }

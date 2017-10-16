@@ -20,8 +20,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public abstract class RepositoryHandler<ResponseType, ResultType> {
 
-    private MediatorLiveData<ResultType> resultData = new MediatorLiveData<>();
     private MutableLiveData<ResultType> memoryData = new MutableLiveData<>();
+    private MediatorLiveData<ResultType> resultData = new MediatorLiveData<>();
 
     public RepositoryHandler() {
 
@@ -47,13 +47,12 @@ public abstract class RepositoryHandler<ResponseType, ResultType> {
                         if (responseType == null) return;
                         ResultType resultType = onMapper(responseType);
                         doCache(resultType);
-                        onFetchSucceed(resultType);
                         memoryData.setValue(resultType);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        onFetchFailed(throwable.getMessage());
+                        memoryData.setValue(null);
                     }
                 });
     }
@@ -65,6 +64,8 @@ public abstract class RepositoryHandler<ResponseType, ResultType> {
                 LiveData<ResultType> fromCache = loadFromCache();
                 if (fromCache != null) {
                     memoryData.setValue(fromCache.getValue());
+                } else {
+                    memoryData.setValue(null);
                 }
             }
         });
@@ -95,10 +96,4 @@ public abstract class RepositoryHandler<ResponseType, ResultType> {
     protected abstract Flowable<ResponseType> fetchFromNetWork();
 
     protected abstract ResultType onMapper(ResponseType responseType);
-
-    protected void onFetchFailed(String message) {
-    }
-
-    protected void onFetchSucceed(ResultType result) {
-    }
 }
