@@ -39,7 +39,12 @@ public abstract class RepositoryHandler<ResponseType, ResultType> {
     }
 
     private void loadRemote() {
-        fetchFromNetWork().subscribeOn(Schedulers.io())
+        Flowable<ResponseType> fromNetWork = fetchFromNetWork();
+        if (fromNetWork == null) {
+            memoryData.setValue(null);
+            return;
+        }
+        fromNetWork.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResponseType>() {
                     @Override

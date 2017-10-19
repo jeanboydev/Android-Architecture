@@ -16,6 +16,7 @@ import com.jeanboy.data.repository.handler.RepositoryHandler;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
@@ -26,20 +27,77 @@ import io.reactivex.Flowable;
 @Singleton
 public class UserRepository {
 
-    private AppDatabase database = DBManager.getInstance().getDataBase();
-    private UserService userDao = OkHttpManager.getInstance().create(UserService.BASE_URL, UserService.class);
+    private AppDatabase database;
+    private UserService userDao;
 
-    public LiveData<TokenModel> login(final String username, final String password) {
+    @Inject
+    public UserRepository() {
+        database = DBManager.getInstance().getDataBase();
+        userDao = OkHttpManager.getInstance().create(UserService.BASE_URL, UserService.class);
+    }
+
+    public LiveData<TokenModel> getToken() {
         return new RepositoryHandler<TokenEntity, TokenModel>() {
 
             @Override
+            protected LiveData<TokenModel> loadFromCache() {
+                return database.tokenDao().get();
+            }
+
+            @Override
+            protected void saveToCache(TokenModel result) {
+                database.beginTransaction();
+                try {
+                    database.tokenDao().insert(result);
+                    database.setTransactionSuccessful();
+                } finally {
+                    database.endTransaction();
+                }
+            }
+
+            @Override
             protected boolean shouldFetch(TokenModel result) {
-                return true;
+                return result == null || result.isInvalid();
             }
 
             @Override
             protected Flowable<TokenEntity> fetchFromNetWork() {
-                return userDao.login(username, password);
+                LiveData<TokenModel> tokenCache = loadFromCache();
+                if (tokenCache != null && tokenCache.getValue() != null) {
+                    return userDao.refreshToken(tokenCache.getValue().getRefreshToken());
+                }
+                return null;
+            }
+
+            @Override
+            protected TokenModel onMapper(TokenEntity tokenEntity) {
+                return new TokenDataMapper().transform(tokenEntity);
+            }
+        }.asLiveData();
+    }
+
+    public LiveData<TokenModel> getToken(final String username, final String password) {
+        return new RepositoryHandler<TokenEntity, TokenModel>() {
+
+            @Override
+            protected void saveToCache(TokenModel result) {
+                database.beginTransaction();
+                try {
+                    database.tokenDao().insert(result);
+                    database.setTransactionSuccessful();
+                } finally {
+                    database.endTransaction();
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(TokenModel result) {
+                return result == null || result.isInvalid();
+            }
+
+            @Override
+            protected Flowable<TokenEntity> fetchFromNetWork() {
+                return userDao.getToken(username, password);
             }
 
             @Override

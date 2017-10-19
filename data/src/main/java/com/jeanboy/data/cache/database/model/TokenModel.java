@@ -1,11 +1,17 @@
 package com.jeanboy.data.cache.database.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by jeanboy on 2017/7/28.
  */
 
+@Entity(tableName = "token")
 public class TokenModel {
 
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String tokenType;//令牌类型
     private String refreshToken;//更新令牌，用来获取下一次的访问令牌
     private String accessToken;//访问令牌
@@ -18,6 +24,14 @@ public class TokenModel {
 
     public boolean isInvalid() {
         return System.currentTimeMillis() - createTimeAt > expiresIn;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTokenType() {

@@ -40,5 +40,5 @@ ext {
     supportLibraryVersion = '26.1+'
 
     daggerVersion = '2.11'
-    archVersion = "1.0.0-beta1"
+    archVersion = "1.0.0-beta2"
 }

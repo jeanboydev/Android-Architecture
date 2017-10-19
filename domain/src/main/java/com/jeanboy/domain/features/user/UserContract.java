@@ -1,7 +1,6 @@
 package com.jeanboy.domain.features.user;
 
 import com.jeanboy.data.cache.database.model.UserModel;
-import com.jeanboy.domain.base.BasePresenter;
 
 import java.util.List;
 
@@ -13,17 +12,17 @@ public class UserContract {
 
     public interface View {
 
-        void getInfoSuccess(UserModel userModel);
+        void onInfoChange(UserModel userModel);
 
-        void getInfoError();
+        void onInfoError();
 
-        void getFriendListSuccess(List<UserModel> friendList);
+        void onFriendListChange(List<UserModel> friendList);
 
-        void getFriendListError();
+        void onFriendListError();
 
     }
 
-    public interface Presenter extends BasePresenter<View> {
+    public interface Presenter {
 
         void getInfo(String accessToken, String userId);
 

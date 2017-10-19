@@ -1,89 +1,48 @@
 package com.jeanboy.domain.features.user;
 
-import com.jeanboy.domain.base.BaseUseCase;
-import com.jeanboy.domain.usecase.GetFriendListRemoteTask;
-import com.jeanboy.domain.usecase.GetInfoRemoteTask;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 
-import javax.inject.Inject;
+import com.jeanboy.data.cache.database.model.UserModel;
+import com.jeanboy.domain.base.BasePresenter;
+
 
 /**
- * Created by jeanboy on 2017/7/31.
+ * Created by jeanboy on 2017/9/30.
  */
 
-public class UserPresenter implements UserContract.Presenter {
+public class UserPresenter extends BasePresenter<UserContract.View> implements UserContract.Presenter {
 
-    private UserContract.View view;
-
-    @Inject
-    GetInfoRemoteTask getInfoRemoteTask;
-    @Inject
-    GetFriendListRemoteTask getFriendListRemoteTask;
-
-    @Inject
-    public UserPresenter() {
+    public UserPresenter(UserContract.View view) {
+        super(view);
     }
 
-    @Override
-    public void setView(UserContract.View view) {
-        this.view = view;
-    }
+    private UserViewModel userViewModel;
 
     @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void destroy() {
-        this.view = null;
-        if (getInfoRemoteTask != null) {
-            getInfoRemoteTask.cancel();
-        }
-        if (getFriendListRemoteTask != null) {
-            getFriendListRemoteTask.cancel();
-        }
+    public void onViewCreated(LifecycleOwner owner) {
+        userViewModel = getViewModel(owner, UserViewModel.class);
+        if (userViewModel == null) return;
+        userViewModel.getUserData().observe(owner, new Observer<UserModel>() {
+            @Override
+            public void onChanged(@Nullable UserModel userModel) {
+                if (userModel == null) {
+                    view.onInfoError();
+                    return;
+                }
+                view.onInfoChange(userModel);
+            }
+        });
     }
 
     @Override
     public void getInfo(String accessToken, String userId) {
-        getInfoRemoteTask.setRequestValues(new GetInfoRemoteTask.RequestValues(accessToken, userId));
-        getInfoRemoteTask.setUseCaseCallback(new BaseUseCase.UseCaseCallback<GetInfoRemoteTask.ResponseValues>() {
-            @Override
-            public void onSuccess(GetInfoRemoteTask.ResponseValues response) {
-                if (view == null) return;
-                view.getInfoSuccess(response.getUserModel());
-            }
-
-            @Override
-            public void onError() {
-                if (view == null) return;
-                view.getInfoError();
-            }
-        });
-        getInfoRemoteTask.run();
+        userViewModel.getInfo(accessToken, userId);
     }
 
     @Override
     public void getFriendList(String accessToken, String userId, int skip, int limit) {
-        getFriendListRemoteTask.setRequestValues(new GetFriendListRemoteTask.RequestValues(accessToken, userId, skip, limit));
-        getFriendListRemoteTask.setUseCaseCallback(new BaseUseCase.UseCaseCallback<GetFriendListRemoteTask.ResponseValues>() {
-            @Override
-            public void onSuccess(GetFriendListRemoteTask.ResponseValues response) {
-                if (view == null) return;
-                view.getFriendListSuccess(response.getUserModel());
-            }
-
-            @Override
-            public void onError() {
-                if (view == null) return;
-                view.getFriendListError();
-            }
-        });
-        getFriendListRemoteTask.run();
+        userViewModel.getFriendList(accessToken, userId, skip, limit);
     }
 }

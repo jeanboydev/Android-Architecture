@@ -1,27 +1,31 @@
 package com.jeanboy.domain.base;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+
 /**
- * Created by jeanboy on 2016/7/4.
+ * Created by jeanboy on 2017/9/30.
  */
-public interface BasePresenter<T> {
 
-    void setView(T view);
+public abstract class BasePresenter<View> {
 
-    /**
-     * Method that control the lifecycle of the view. It should be called in the view's
-     * (Activity or Fragment) onResume() method.
-     */
-    void resume();
+    protected View view;
 
-    /**
-     * Method that control the lifecycle of the view. It should be called in the view's
-     * (Activity or Fragment) onPause() method.
-     */
-    void pause();
+    public BasePresenter(View view) {
+        this.view = view;
+    }
 
-    /**
-     * Method that control the lifecycle of the view. It should be called in the view's
-     * (Activity or Fragment) onDestroy() method.
-     */
-    void destroy();
+    public <T extends ViewModel> T getViewModel(LifecycleOwner owner, Class<T> clazz) {
+        if (owner instanceof FragmentActivity) {
+            return ViewModelProviders.of((FragmentActivity) owner).get(clazz);
+        } else if (owner instanceof Fragment) {
+            return ViewModelProviders.of((Fragment) owner).get(clazz);
+        }
+        return null;
+    }
+
+    public abstract void onViewCreated(LifecycleOwner owner);
 }

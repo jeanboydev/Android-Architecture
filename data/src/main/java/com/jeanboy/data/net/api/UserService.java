@@ -35,7 +35,16 @@ public interface UserService {
      */
     @FormUrlEncoded
     @POST("/user")
-    Flowable<TokenEntity> login(@Field("username") String username, @Field("password") String password);
+    Flowable<TokenEntity> getToken(@Field("username") String username, @Field("password") String password);
+
+    /**
+     * http://www.xxx.com/user?refreshToken=xxx
+     *
+     * @param refreshToken
+     * @return
+     */
+    @GET("/user")
+    Flowable<TokenEntity> refreshToken(@Query("refreshToken") String refreshToken);
 
     /**
      * http://www.xxx.com/user/id
@@ -65,6 +74,7 @@ public interface UserService {
      * @return
      */
     @GET("/user/{id}/friend")
-    Flowable<List<UserEntity>> getFriendList(@Header("Authorization") String accessToken, @Path("id") String userId, @Query("skip") int skip,
-                                         @Query("limit") int limit);
+    Flowable<List<UserEntity>> getFriendList(@Header("Authorization") String accessToken, @Path("id") String userId, @Query("skip") int
+            skip,
+                                             @Query("limit") int limit);
 }

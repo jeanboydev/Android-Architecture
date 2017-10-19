@@ -12,27 +12,23 @@ import com.jeanboy.app.architecture.di.DaggerBaseActivity;
 import com.jeanboy.base.utils.ToolBarUtil;
 import com.jeanboy.data.cache.database.model.TokenModel;
 import com.jeanboy.data.cache.database.model.UserModel;
-import com.jeanboy.domain.features.login.LoginContract;
-import com.jeanboy.domain.features.login.LoginPresenter;
+import com.jeanboy.domain.features.token.TokenContract;
+import com.jeanboy.domain.features.token.TokenPresenter;
 import com.jeanboy.domain.features.user.UserContract;
 import com.jeanboy.domain.features.user.UserPresenter;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 
-public class LoginActivity extends DaggerBaseActivity implements LoginContract.View, UserContract.View {
+public class LoginActivity extends DaggerBaseActivity implements TokenContract.View, UserContract.View {
 
     @BindView(R.id.et_username)
     EditText et_username;
     @BindView(R.id.et_password)
     EditText et_password;
 
-    @Inject
-    LoginPresenter loginPresenter;
-    @Inject
+    TokenPresenter tokenPresenter;
     UserPresenter userPresenter;
 
     public static void goActivity(Context context) {
@@ -55,8 +51,10 @@ public class LoginActivity extends DaggerBaseActivity implements LoginContract.V
         ToolBarUtil.setToolBarTitle(getToolbar(), "Login");
         ToolBarUtil.setToolbarHomeAsUp(this);
 
-        loginPresenter.setView(this);
-        userPresenter.setView(this);
+        tokenPresenter = new TokenPresenter(this);
+        tokenPresenter.onViewCreated(this);
+        userPresenter = new UserPresenter(this);
+        userPresenter.onViewCreated(this);
     }
 
     @Override
@@ -66,51 +64,47 @@ public class LoginActivity extends DaggerBaseActivity implements LoginContract.V
 
     @Override
     protected void onDestroy() {
-        if (loginPresenter != null) {
-            loginPresenter.destroy();
-        }
-        if (userPresenter != null) {
-            userPresenter.destroy();
-        }
         super.onDestroy();
     }
 
     public void toLogin(View view) {
         String username = et_username.getText().toString().trim();
         String password = et_password.getText().toString().trim();
-        loginPresenter.login(username, password);
+        tokenPresenter.getToken(username, password);
     }
 
     @Override
-    public void loginSucceed(TokenModel tokenModel) {
-        Log.e(TAG, "===loginSucceed===");
+    public void onGetTokenSucceed(TokenModel tokenModel) {
+        Log.e(TAG, "===onGetTokenSucceed===");
         // TODO: 2017/8/3 通过token获取个人信息
         //模块化的presenter组合使用
         userPresenter.getInfo(tokenModel.getAccessToken(), null);
     }
 
     @Override
-    public void loginError() {
-        Log.e(TAG, "===loginError===");
+    public void onGetTokenError() {
+        Log.e(TAG, "===onGetTokenError===");
+    }
+
+
+    @Override
+    public void onInfoChange(UserModel userModel) {
+        Log.e(TAG, "===onInfoChange===");
     }
 
     @Override
-    public void getInfoSuccess(UserModel userModel) {
-        Log.e(TAG, "===getInfoSuccess===");
+    public void onInfoError() {
+        Log.e(TAG, "===onInfoError===");
     }
 
     @Override
-    public void getInfoError() {
-        Log.e(TAG, "===getInfoError===");
+    public void onFriendListChange(List<UserModel> friendList) {
+        Log.e(TAG, "===onFriendListChange===");
     }
 
     @Override
-    public void getFriendListSuccess(List<UserModel> friendList) {
-
+    public void onFriendListError() {
+        Log.e(TAG, "===onFriendListError===");
     }
 
-    @Override
-    public void getFriendListError() {
-
-    }
 }

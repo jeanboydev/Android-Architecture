@@ -7,9 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.jeanboy.data.cache.database.model.UserModel;
-
-import java.util.List;
+import com.jeanboy.data.cache.database.model.TokenModel;
 
 
 /**
@@ -17,17 +15,14 @@ import java.util.List;
  */
 
 @Dao
-public interface UserModelDao {
+public interface TokenModelDao {
 
-    @Query("select * from user where id = :userId")
-    LiveData<UserModel> getById(String userId);
-
-    @Query("select * from user")
-    LiveData<List<UserModel>> getAll();
+    @Query("select * from token limit 1")
+    LiveData<TokenModel> get();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(UserModel userModel);
+    void insert(TokenModel tokenModel);
 
     @Delete
-    void delete(UserModel userModel);
+    void delete(TokenModel tokenModel);
 }
