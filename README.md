@@ -2,7 +2,7 @@
 
 ## 概述
 
-:house:该项目结合 MVP 与 Clean 架构思想，探索在 Android 项目上的最佳实践。
+该项目结合 MVP 与 Clean 架构思想，探索在 Android 项目上的最佳实践。
 
 遵循 [Clean Architecture](https://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html) 的原则。
 
