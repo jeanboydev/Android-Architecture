@@ -6,13 +6,13 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
+import com.jeanboy.base.manager.net.RequestCallback;
+import com.jeanboy.base.manager.net.RequestParams;
+import com.jeanboy.base.manager.net.ResponseData;
 import com.jeanboy.data.cache.manager.DataExecutors;
+import com.jeanboy.data.net.manager.OkHttpManager;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
 
 /**
  * Created by jeanboy on 2017/9/30.
@@ -39,27 +39,27 @@ public abstract class RepositoryHandler<ResponseType, ResultType> {
     }
 
     private void loadRemote() {
-        Flowable<ResponseType> fromNetWork = fetchFromNetWork();
+        Call<ResponseType> fromNetWork = fetchFromNetWork();
         if (fromNetWork == null) {
             memoryData.setValue(null);
             return;
         }
-        fromNetWork.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ResponseType>() {
-                    @Override
-                    public void accept(@NonNull final ResponseType responseType) throws Exception {
-                        if (responseType == null) return;
-                        ResultType resultType = onMapper(responseType);
-                        doCache(resultType);
-                        memoryData.setValue(resultType);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        memoryData.setValue(null);
-                    }
-                });
+
+        OkHttpManager.getInstance().doBack(new RequestParams<>(fromNetWork),
+                new RequestCallback<ResponseData<ResponseType>>() {
+            @Override
+            public void onSuccess(ResponseData<ResponseType> response) {
+                if (response == null) return;
+                ResultType resultType = onMapper(response.getBody());
+                doCache(resultType);
+                memoryData.setValue(resultType);
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+                memoryData.setValue(null);
+            }
+        });
     }
 
     private void loadCache() {
@@ -98,7 +98,7 @@ public abstract class RepositoryHandler<ResponseType, ResultType> {
 
     protected abstract boolean shouldFetch(ResultType result);
 
-    protected abstract Flowable<ResponseType> fetchFromNetWork();
+    protected abstract Call<ResponseType> fetchFromNetWork();
 
     protected abstract ResultType onMapper(ResponseType responseType);
 }

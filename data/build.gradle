@@ -44,40 +44,54 @@ ext {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile "junit:junit:$rootProject.junitVersion"
+    testImplementation "junit:junit:$rootProject.junitVersion"
+
+    //DataBase
+    implementation "org.greenrobot:greendao:$greendaoVersion"
 
     //fastjson
-    compile "com.alibaba:fastjson:$fastjsonVersion"
+    implementation "com.alibaba:fastjson:$fastjsonVersion"
 
     //network
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
-    compile "org.simpleframework:simple-xml:$simpleXmlVersion"
-    //rxjava
-    compile "io.reactivex.rxjava2:rxjava:2.1.0"
-    compile "io.reactivex.rxjava2:rxandroid:2.0.1"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
+    implementation "org.simpleframework:simple-xml:$simpleXmlVersion"
 
-    compile project(':base')
+    api project(':base')
 
     //Dagger2
-    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    api "com.google.dagger:dagger:$rootProject.daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-//    compile "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-//    compile "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
-//    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+    testImplementation "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+
 
     //arch
-    compile "android.arch.lifecycle:extensions:$rootProject.archVersion"
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:$rootProject.archVersion"
+    // alternatively, just ViewModel
+    implementation "android.arch.lifecycle:viewmodel:$rootProject.archVersion"
+    // alternatively, just LiveData
+    implementation "android.arch.lifecycle:livedata:$rootProject.archVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archVersion"
-    compile "android.arch.persistence.room:runtime:$rootProject.archVersion"
-    compile "android.arch.persistence.room:rxjava2:$rootProject.archVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.archVersion"
+
+    // Room (use 1.1.0-beta2 for latest beta)
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+
+    // Paging
+    implementation "android.arch.paging:runtime:1.0.0-beta1"
+
+    // Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:$rootProject.archVersion"
+    // Test helpers for Room
+    testImplementation "android.arch.persistence.room:testing:1.0.0"
 }

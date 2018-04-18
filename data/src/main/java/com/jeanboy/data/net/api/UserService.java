@@ -5,7 +5,7 @@ import com.jeanboy.data.net.entity.UserEntity;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -35,7 +35,7 @@ public interface UserService {
      */
     @FormUrlEncoded
     @POST("/user")
-    Flowable<TokenEntity> getToken(@Field("username") String username, @Field("password") String password);
+    Call<TokenEntity> getToken(@Field("username") String username, @Field("password") String password);
 
     /**
      * http://www.xxx.com/user?refreshToken=xxx
@@ -44,7 +44,7 @@ public interface UserService {
      * @return
      */
     @GET("/user")
-    Flowable<TokenEntity> refreshToken(@Query("refreshToken") String refreshToken);
+    Call<TokenEntity> refreshToken(@Query("refreshToken") String refreshToken);
 
     /**
      * http://www.xxx.com/user/id
@@ -58,7 +58,7 @@ public interface UserService {
      * @return
      */
     @GET("/user/{id}")
-    Flowable<UserEntity> getInfo(@Header("Authorization") String accessToken, @Path("id") String userId);
+    Call<UserEntity> getInfo(@Header("Authorization") String accessToken, @Path("id") String userId);
 
     /**
      * http://www.xxx.com/user/id/friend?skip=xxx&limit=xxx
@@ -74,7 +74,7 @@ public interface UserService {
      * @return
      */
     @GET("/user/{id}/friend")
-    Flowable<List<UserEntity>> getFriendList(@Header("Authorization") String accessToken, @Path("id") String userId, @Query("skip") int
+    Call<List<UserEntity>> getFriendList(@Header("Authorization") String accessToken, @Path("id") String userId, @Query("skip") int
             skip,
                                              @Query("limit") int limit);
 }

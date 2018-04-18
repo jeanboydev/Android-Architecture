@@ -19,7 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Flowable;
+import retrofit2.Call;
 
 /**
  * Created by jeanboy on 2017/9/29.
@@ -61,7 +61,7 @@ public class UserRepository {
             }
 
             @Override
-            protected Flowable<TokenEntity> fetchFromNetWork() {
+            protected Call<TokenEntity> fetchFromNetWork() {
                 LiveData<TokenModel> tokenCache = loadFromCache();
                 if (tokenCache != null && tokenCache.getValue() != null) {
                     return userDao.refreshToken(tokenCache.getValue().getRefreshToken());
@@ -96,7 +96,7 @@ public class UserRepository {
             }
 
             @Override
-            protected Flowable<TokenEntity> fetchFromNetWork() {
+            protected Call<TokenEntity> fetchFromNetWork() {
                 return userDao.getToken(username, password);
             }
 
@@ -132,7 +132,7 @@ public class UserRepository {
             }
 
             @Override
-            protected Flowable<UserEntity> fetchFromNetWork() {
+            protected Call<UserEntity> fetchFromNetWork() {
                 return userDao.getInfo(accessToken, userId);
             }
 
@@ -152,7 +152,7 @@ public class UserRepository {
             }
 
             @Override
-            protected Flowable<List<UserEntity>> fetchFromNetWork() {
+            protected Call<List<UserEntity>> fetchFromNetWork() {
                 return userDao.getFriendList(accessToken, userId, skip, limit);
             }
 

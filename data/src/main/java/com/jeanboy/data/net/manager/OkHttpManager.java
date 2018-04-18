@@ -15,7 +15,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -75,7 +74,7 @@ public class OkHttpManager extends NetManager {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(factory)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//Rxjava
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//Rxjava
                 .client(mOkHttpClient).build();
         return mRetrofit;
     }
