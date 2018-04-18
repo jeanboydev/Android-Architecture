@@ -43,30 +43,30 @@ ext {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile "junit:junit:$rootProject.junitVersion"
+    testImplementation "junit:junit:$rootProject.junitVersion"
 
     //DataBase
-    compile "org.greenrobot:greendao:$greendaoVersion"
+    implementation "org.greenrobot:greendao:$greendaoVersion"
 
     //fastjson
-    compile "com.alibaba:fastjson:$fastjsonVersion"
+    implementation "com.alibaba:fastjson:$fastjsonVersion"
 
     //network
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
-    compile "org.simpleframework:simple-xml:$simpleXmlVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-simplexml:$retrofitVersion"
+    implementation "org.simpleframework:simple-xml:$simpleXmlVersion"
 
-    compile project(':base')
+    api project(':base')
 
     //Dagger2
-    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+    api "com.google.dagger:dagger:$rootProject.daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    testCompile "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    testImplementation "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 }
