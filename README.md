@@ -52,11 +52,16 @@
 <img src="https://github.com/jeanboydev/Android-Architecture/blob/master/resources/images/android_project.png" alt="architecture"/>
 
 ## 参考资料
-[Android 开发规范](https://github.com/Blankj/AndroidStandardDevelop)
 
-[android-architecture](https://github.com/googlesamples/android-architecture)
+- [Android 开发规范](https://github.com/Blankj/AndroidStandardDevelop)
+- [android-architecture](https://github.com/googlesamples/android-architecture)
+- [Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture)
 
-[Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture)
+
+## 扫一扫关注我的公众账号
+
+<img src="https://github.com/jeanboydev/Android-ReadTheFuckingSourceCode/blob/master/resources/images/wechat/qrcode_for_gh_26eef6f9e7c1_258.jpg?raw=true" width=256 height=256 />
+
 
 ## 关于我
 
